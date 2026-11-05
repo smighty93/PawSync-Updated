@@ -189,7 +189,7 @@ function MedicalRecords() {
 
   return (
     <OwnerDashboardLayout>
-      <div className="p-6 md:p-8">
+      <div className="ps-page-content">
 
         {/* Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -214,7 +214,7 @@ function MedicalRecords() {
 
         {/* Error */}
         {error && (
-          <div className="mt-6 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-red-600">
+          <div role="alert" className="mt-6 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-red-600">
             {error}
           </div>
         )}
@@ -359,7 +359,7 @@ function MedicalRecords() {
 
               {/* Pet */}
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                <label htmlFor="ps-medicalrecords-field-12" className="mb-2 block text-sm font-semibold text-slate-700">
                   Pet
                 </label>
 
@@ -394,7 +394,7 @@ function MedicalRecords() {
                   Record Date
                 </label>
 
-                <input
+                <input id="ps-medicalrecords-field-12"
                   type="date"
                   name="record_date"
                   value={formData.record_date}
@@ -406,11 +406,11 @@ function MedicalRecords() {
 
               {/* Diagnosis */}
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                <label htmlFor="ps-medicalrecords-field-13" className="mb-2 block text-sm font-semibold text-slate-700">
                   Diagnosis
                 </label>
 
-                <input
+                <input id="ps-medicalrecords-field-13"
                   type="text"
                   name="diagnosis"
                   value={formData.diagnosis}
@@ -422,11 +422,11 @@ function MedicalRecords() {
 
               {/* Treatment */}
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                <label htmlFor="ps-medicalrecords-field-14" className="mb-2 block text-sm font-semibold text-slate-700">
                   Treatment
                 </label>
 
-                <input
+                <input id="ps-medicalrecords-field-14"
                   type="text"
                   name="treatment"
                   value={formData.treatment}
@@ -438,11 +438,11 @@ function MedicalRecords() {
 
               {/* Notes */}
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                <label htmlFor="ps-medicalrecords-field-15" className="mb-2 block text-sm font-semibold text-slate-700">
                   Notes
                 </label>
 
-                <textarea
+                <textarea id="ps-medicalrecords-field-15"
                   name="notes"
                   value={formData.notes}
                   onChange={handleChange}

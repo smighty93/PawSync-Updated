@@ -1,9 +1,4 @@
-function Card({ children }) {
-  return (
-    <div className="bg-white rounded-3xl shadow-xl p-10">
-      {children}
-    </div>
-  );
+function Card({ children, className = "", ...props }) {
+  return <div {...props} className={`ps-card bg-white rounded-2xl p-6 sm:p-8 ${className}`}>{children}</div>;
 }
-
 export default Card;

@@ -1,3 +1,4 @@
+import WorkspaceActions from "../../components/ui/WorkspaceActions";
 import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import StatsCard from "../../components/admin/StatsCard";
@@ -214,10 +215,10 @@ export default function AdminDashboard() {
             WELCOME CARD
         ------------------------------------------------ */}
 
-        <div className="bg-gradient-to-r from-blue-700 to-blue-600 rounded-2xl p-4 sm:p-6 text-white shadow-md">
+        <div className="ps-clinical-welcome ps-admin-welcome rounded-2xl p-4 sm:p-6 text-white">
 
           <h1 className="text-2xl font-bold">
-            Welcome back, Admin! 👋
+            Your platform at a glance.
           </h1>
 
           <p className="text-blue-100 mt-1 text-sm">
@@ -232,7 +233,7 @@ export default function AdminDashboard() {
         ------------------------------------------------ */}
 
         {error && (
-          <div className="rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">
+          <div role="alert" className="rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">
             {error}
           </div>
         )}
@@ -288,6 +289,8 @@ export default function AdminDashboard() {
           />
 
         </div>
+
+        <WorkspaceActions role="admin" />
 
         {/* ------------------------------------------------
             RECENT REGISTRATIONS + SYSTEM STATUS

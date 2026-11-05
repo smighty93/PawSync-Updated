@@ -1,3 +1,4 @@
+import Brand from "../ui/Brand";
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
@@ -12,6 +13,8 @@ import {
   LogOut,
   Menu,
   X,
+  FileText,
+  Settings,
 } from "lucide-react";
 
 import { useAuth } from "../../context/AuthContext";
@@ -47,6 +50,8 @@ const adminNavItems = [
     path: "/admin/notifications",
     icon: Bell,
   },
+  { name: "Reports", path: "/admin/reports", icon: FileText },
+  { name: "Settings", path: "/admin/settings", icon: Settings },
   {
     name: "Profile",
     path: "/admin/profile",
@@ -113,13 +118,14 @@ export default function DashboardLayout({
     "Administrator";
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="ps-shell ps-shell-admin min-h-screen bg-slate-50">
 
+      <a href="#main-content" className="ps-skip-link">Skip to content</a>
       {/* =====================================================
           DESKTOP SIDEBAR
       ===================================================== */}
 
-      <aside className="hidden md:flex w-64 bg-white border-r border-slate-100 flex-col fixed inset-y-0 left-0 z-30">
+      <aside className="ps-sidebar hidden md:flex w-64 bg-white border-r border-slate-100 flex-col fixed inset-y-0 left-0 z-30">
 
         {/* LOGO */}
 
@@ -131,8 +137,7 @@ export default function DashboardLayout({
             }
             className="text-xl font-bold text-blue-600 flex items-center gap-2"
           >
-            <span>🐾</span>
-            <span>PawSync</span>
+            <Brand />
           </button>
         </div>
 
@@ -146,6 +151,7 @@ export default function DashboardLayout({
               <NavLink
                 key={item.name}
                 to={item.path}
+                    end={item.path === "/admin"}
                 onClick={handleNavigation}
                 className={({ isActive }) =>
                   `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
@@ -177,7 +183,7 @@ export default function DashboardLayout({
             }
           />
 
-          <aside className="fixed top-0 left-0 bottom-0 w-72 bg-white z-50 shadow-xl md:hidden">
+          <aside className="ps-sidebar fixed top-0 left-0 bottom-0 w-72 bg-white z-50 shadow-xl md:hidden">
 
             <div className="p-6 flex items-center justify-between border-b border-slate-100">
 
@@ -189,12 +195,12 @@ export default function DashboardLayout({
                 }}
                 className="text-xl font-bold text-blue-600 flex items-center gap-2"
               >
-                <span>🐾</span>
-                <span>PawSync</span>
+                <Brand />
               </button>
 
               <button
                 type="button"
+                aria-label="Close navigation"
                 onClick={() =>
                   setShowMobileMenu(false)
                 }
@@ -214,6 +220,7 @@ export default function DashboardLayout({
                   <NavLink
                     key={item.name}
                     to={item.path}
+                    end={item.path === "/admin"}
                     onClick={handleNavigation}
                     className={({ isActive }) =>
                       `flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium ${
@@ -256,10 +263,11 @@ export default function DashboardLayout({
 
         {/* HEADER */}
 
-        <header className="h-16 bg-white border-b border-slate-100 flex items-center justify-between px-4 sm:px-6 md:px-8 sticky top-0 z-30">
+        <header className="ps-header h-16 bg-white border-b border-slate-100 flex items-center justify-between px-4 sm:px-6 md:px-8 sticky top-0 z-30">
 
           <button
             type="button"
+            aria-label="Open navigation" aria-expanded={showMobileMenu}
             onClick={() =>
               setShowMobileMenu(true)
             }
@@ -268,7 +276,8 @@ export default function DashboardLayout({
             <Menu className="w-6 h-6" />
           </button>
 
-          <div />
+          <div className="sm:hidden"><Brand /></div>
+          <div className="hidden sm:block"><p className="ps-eyebrow">ADMINISTRATION</p><p className="text-sm font-semibold text-slate-700">Healthcare network overview</p></div>
 
           {/* TOP-RIGHT PROFILE MENU */}
 
@@ -276,6 +285,7 @@ export default function DashboardLayout({
 
             <button
               type="button"
+              aria-label="Account menu" aria-expanded={showProfile}
               onClick={() =>
                 setShowProfile(
                   (value) => !value
@@ -329,7 +339,8 @@ export default function DashboardLayout({
 
                 <button
                   type="button"
-                  onClick={() => {
+                  aria-label="Account menu" aria-expanded={showProfile}
+              onClick={() => {
                     setShowProfile(false);
                     navigate("/admin/profile");
                   }}
@@ -361,7 +372,7 @@ export default function DashboardLayout({
 
         {/* PAGE */}
 
-        <main className="p-4 sm:p-6 md:p-8">
+        <main id="main-content" className="ps-main p-4 sm:p-6 md:p-8">
           {children}
         </main>
 

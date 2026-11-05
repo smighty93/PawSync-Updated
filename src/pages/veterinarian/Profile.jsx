@@ -232,7 +232,7 @@ function Profile() {
 
         {/* Error message */}
         {error && (
-          <div className="mb-5 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-red-700">
+          <div role="alert" className="mb-5 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-red-700">
             {error}
           </div>
         )}
@@ -339,11 +339,11 @@ function Profile() {
 
               {/* Full name */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label htmlFor="ps-profile-field-20" className="block text-sm font-semibold text-gray-700 mb-2">
                   Full Name
                 </label>
 
-                <input
+                <input id="ps-profile-field-20"
                   type="text"
                   name="full_name"
                   value={formData.full_name}
@@ -355,11 +355,11 @@ function Profile() {
 
               {/* Email */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label htmlFor="ps-profile-field-21" className="block text-sm font-semibold text-gray-700 mb-2">
                   Email
                 </label>
 
-                <input
+                <input id="ps-profile-field-21"
                   type="email"
                   value={formData.email}
                   disabled
@@ -374,11 +374,11 @@ function Profile() {
 
               {/* Phone */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label htmlFor="ps-profile-field-22" className="block text-sm font-semibold text-gray-700 mb-2">
                   Phone
                 </label>
 
-                <input
+                <input id="ps-profile-field-22"
                   type="tel"
                   name="phone"
                   value={formData.phone}
@@ -390,11 +390,11 @@ function Profile() {
 
               {/* Specialization */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label htmlFor="ps-profile-field-23" className="block text-sm font-semibold text-gray-700 mb-2">
                   Specialization
                 </label>
 
-                <input
+                <input id="ps-profile-field-23"
                   type="text"
                   name="specialization"
                   value={formData.specialization}
@@ -406,11 +406,11 @@ function Profile() {
 
               {/* Experience */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label htmlFor="ps-profile-field-24" className="block text-sm font-semibold text-gray-700 mb-2">
                   Experience (Years)
                 </label>
 
-                <input
+                <input id="ps-profile-field-24"
                   type="number"
                   name="experience"
                   value={formData.experience}

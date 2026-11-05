@@ -189,7 +189,7 @@ function MedicalReports() {
         {/* Error */}
 
         {error && (
-          <div className="rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-red-700">
+          <div role="alert" className="rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-red-700">
             {error}
           </div>
         )}
@@ -275,7 +275,7 @@ function MedicalReports() {
 
             <div className="overflow-x-auto">
 
-              <table className="w-full min-w-[1000px]">
+              <table className="ps-table w-full min-w-[1000px]">
 
                 <thead className="bg-slate-50">
 

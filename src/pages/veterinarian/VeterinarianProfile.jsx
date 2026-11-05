@@ -175,7 +175,7 @@ function Profile() {
         {/* SUCCESS MESSAGE */}
 
         {success && (
-          <div className="mb-5 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-green-700">
+          <div role="status" className="mb-5 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-green-700">
             {success}
           </div>
         )}
@@ -183,7 +183,7 @@ function Profile() {
         {/* ERROR MESSAGE */}
 
         {error && (
-          <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-700">
+          <div role="alert" className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-700">
             {error}
           </div>
         )}
@@ -248,11 +248,11 @@ function Profile() {
           <div className="space-y-4">
 
             <div>
-              <label className="block font-semibold text-gray-700 mb-1">
+              <label htmlFor="ps-veterinarianprofile-field-25" className="block font-semibold text-gray-700 mb-1">
                 Name
               </label>
 
-              <input
+              <input id="ps-veterinarianprofile-field-25"
                 type="text"
                 name="name"
                 value={formData.name}
@@ -262,11 +262,11 @@ function Profile() {
             </div>
 
             <div>
-              <label className="block font-semibold text-gray-700 mb-1">
+              <label htmlFor="ps-veterinarianprofile-field-26" className="block font-semibold text-gray-700 mb-1">
                 Email
               </label>
 
-              <input
+              <input id="ps-veterinarianprofile-field-26"
                 type="email"
                 value={formData.email}
                 disabled
@@ -279,11 +279,11 @@ function Profile() {
             </div>
 
             <div>
-              <label className="block font-semibold text-gray-700 mb-1">
+              <label htmlFor="ps-veterinarianprofile-field-27" className="block font-semibold text-gray-700 mb-1">
                 Phone
               </label>
 
-              <input
+              <input id="ps-veterinarianprofile-field-27"
                 type="text"
                 name="phone"
                 value={formData.phone}
@@ -293,11 +293,11 @@ function Profile() {
             </div>
 
             <div>
-              <label className="block font-semibold text-gray-700 mb-1">
+              <label htmlFor="ps-veterinarianprofile-field-28" className="block font-semibold text-gray-700 mb-1">
                 Specialization
               </label>
 
-              <input
+              <input id="ps-veterinarianprofile-field-28"
                 type="text"
                 name="specialization"
                 value={formData.specialization}
@@ -307,11 +307,11 @@ function Profile() {
             </div>
 
             <div>
-              <label className="block font-semibold text-gray-700 mb-1">
+              <label htmlFor="ps-veterinarianprofile-field-29" className="block font-semibold text-gray-700 mb-1">
                 Experience
               </label>
 
-              <input
+              <input id="ps-veterinarianprofile-field-29"
                 type="number"
                 min="0"
                 name="experience"

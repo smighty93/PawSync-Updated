@@ -358,14 +358,14 @@ function Vaccinations() {
 
         {/* Error */}
         {error && (
-          <div className="mt-6 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">
+          <div role="alert" className="mt-6 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">
             {error}
           </div>
         )}
 
         {/* Success */}
         {success && (
-          <div className="mt-6 rounded-xl border border-green-200 bg-green-50 px-5 py-4 text-sm text-green-700">
+          <div role="status" className="mt-6 rounded-xl border border-green-200 bg-green-50 px-5 py-4 text-sm text-green-700">
             {success}
           </div>
         )}
@@ -400,7 +400,7 @@ function Vaccinations() {
             >
               {/* Pet */}
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                <label htmlFor="ps-vaccinations-field-30" className="mb-2 block text-sm font-semibold text-slate-700">
                   Pet
                 </label>
 
@@ -441,7 +441,7 @@ function Vaccinations() {
                   Vaccine Name
                 </label>
 
-                <input
+                <input id="ps-vaccinations-field-30"
                   type="text"
                   name="vaccine_name"
                   value={formData.vaccine_name}
@@ -454,11 +454,11 @@ function Vaccinations() {
 
               {/* Vaccination Date */}
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                <label htmlFor="ps-vaccinations-field-31" className="mb-2 block text-sm font-semibold text-slate-700">
                   Vaccination Date
                 </label>
 
-                <input
+                <input id="ps-vaccinations-field-31"
                   type="date"
                   name="vaccination_date"
                   value={formData.vaccination_date}
@@ -470,11 +470,11 @@ function Vaccinations() {
 
               {/* Next Due Date */}
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                <label htmlFor="ps-vaccinations-field-32" className="mb-2 block text-sm font-semibold text-slate-700">
                   Next Due Date
                 </label>
 
-                <input
+                <input id="ps-vaccinations-field-32"
                   type="date"
                   name="next_due_date"
                   value={formData.next_due_date}
@@ -489,11 +489,11 @@ function Vaccinations() {
 
               {/* Notes */}
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                <label htmlFor="ps-vaccinations-field-33" className="mb-2 block text-sm font-semibold text-slate-700">
                   Notes
                 </label>
 
-                <textarea
+                <textarea id="ps-vaccinations-field-33"
                   name="notes"
                   value={formData.notes}
                   onChange={handleChange}
@@ -564,7 +564,7 @@ function Vaccinations() {
             </div>
           ) : (
             <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
-              <table className="w-full min-w-[800px]">
+              <table className="ps-table w-full min-w-[800px]">
                 <thead>
                   <tr className="border-b border-slate-200 bg-slate-50 text-left">
                     <th className="px-6 py-4 text-sm font-semibold text-slate-600">

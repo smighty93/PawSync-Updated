@@ -174,7 +174,7 @@ function StatsGrid() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+      <div className="ps-stat-grid grid grid-cols-2 xl:grid-cols-4 gap-4">
         {/* My Pets */}
 
         <div className="bg-white rounded-2xl shadow-md p-6">

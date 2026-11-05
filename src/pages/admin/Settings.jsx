@@ -149,13 +149,13 @@ export default function Settings() {
         <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-100 space-y-6">
 
           {error && (
-            <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+            <div role="alert" className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
               {error}
             </div>
           )}
 
           {success && (
-            <div className="rounded-lg bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-700 flex items-center gap-2">
+            <div role="status" className="rounded-lg bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-700 flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4" />
               {success}
             </div>
@@ -180,11 +180,11 @@ export default function Settings() {
 
                   {/* Platform Name */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-700">
+                    <label htmlFor="ps-settings-field-18" className="block text-sm font-medium text-slate-700">
                       Platform Name
                     </label>
 
-                    <input
+                    <input id="ps-settings-field-18"
                       type="text"
                       value={platformName}
                       onChange={(event) =>
@@ -198,11 +198,11 @@ export default function Settings() {
 
                   {/* Support Email */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-700">
+                    <label htmlFor="ps-settings-field-19" className="block text-sm font-medium text-slate-700">
                       Support Contact Email
                     </label>
 
-                    <input
+                    <input id="ps-settings-field-19"
                       type="email"
                       value={supportEmail}
                       onChange={(event) =>

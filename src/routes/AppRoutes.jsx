@@ -1,3 +1,4 @@
+import ResponsivePage from "../components/ui/ResponsivePage";
 import {
   BrowserRouter,
   Routes,
@@ -29,6 +30,8 @@ import Pets from "../pages/owner/Pets";
 import Appointments from "../pages/owner/Appointments";
 import MedicalRecords from "../pages/owner/MedicalRecords";
 import Profile from "../pages/owner/Profile";
+import OwnerAnalytics from "../pages/owner/Analytics";
+import Reminders from "../pages/owner/Reminders";
 
 // =====================================================
 // VETERINARIAN - MOBILE
@@ -196,6 +199,12 @@ function RoleRoute({
   }
 
   const userRole = profile.role;
+  console.log("ROUTE DEBUG:", {
+  currentPath: window.location.pathname,
+  user: user?.email,
+  profileRole: userRole,
+  allowedRoles,
+});
 
   if (!allowedRoles.includes(userRole)) {
     return (
@@ -212,23 +221,6 @@ function RoleRoute({
 // =====================================================
 // RESPONSIVE PAGE
 // =====================================================
-
-function ResponsivePage({
-  desktop,
-  mobile,
-}) {
-  return (
-    <>
-      <div className="hidden lg:block">
-        {desktop}
-      </div>
-
-      <div className="block lg:hidden">
-        {mobile}
-      </div>
-    </>
-  );
-}
 
 // =====================================================
 // APP ROUTES
@@ -369,6 +361,36 @@ function AppRoutes() {
               allowedRoles={["pet_owner"]}
             >
               <Profile />
+            </RoleRoute>
+          }
+        />
+
+        {/* =================================================
+            PET OWNER - ANALYTICS
+        ================================================= */}
+
+        <Route
+          path="/analytics"
+          element={
+            <RoleRoute
+              allowedRoles={["pet_owner"]}
+            >
+              <OwnerAnalytics />
+            </RoleRoute>
+          }
+        />
+
+        {/* =================================================
+            PET OWNER - REMINDERS
+        ================================================= */}
+
+        <Route
+          path="/reminders"
+          element={
+            <RoleRoute
+              allowedRoles={["pet_owner"]}
+            >
+              <Reminders />
             </RoleRoute>
           }
         />

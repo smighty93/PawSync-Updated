@@ -154,7 +154,7 @@ function Profile() {
         {/* Error */}
 
         {error && (
-          <div className="mt-6 rounded-xl border border-red-200 bg-red-50 p-4">
+          <div role="alert" className="mt-6 rounded-xl border border-red-200 bg-red-50 p-4">
             <p className="text-red-600">
               {error}
             </p>
@@ -184,11 +184,11 @@ function Profile() {
           <div className="mt-6">
             {/* Full Name */}
 
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
+            <label htmlFor="ps-profile-field-1" className="block text-sm font-semibold text-slate-700 mb-2">
               Full Name
             </label>
 
-            <input
+            <input id="ps-profile-field-1"
               type="text"
               name="full_name"
               value={profile.full_name}
@@ -201,11 +201,11 @@ function Profile() {
           {/* Address */}
 
           <div className="mt-6">
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
+            <label htmlFor="ps-profile-field-2" className="block text-sm font-semibold text-slate-700 mb-2">
               Address
             </label>
 
-            <textarea
+            <textarea id="ps-profile-field-2"
               name="address"
               value={profile.address}
               onChange={handleChange}

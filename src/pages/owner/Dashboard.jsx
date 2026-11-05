@@ -20,8 +20,8 @@ function Dashboard() {
       <QuickActions />
 
       {/* Main Content */}
-      <div className="grid grid-cols-3 gap-6 mt-10">
-        <div className="col-span-2">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-8">
+        <div className="xl:col-span-2">
           <MyPets />
         </div>
 
@@ -29,7 +29,7 @@ function Dashboard() {
       </div>
 
       {/* Bottom Section */}
-      <div className="grid grid-cols-2 gap-6 mt-10">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-8">
         <VaccinationReminder />
 
         <RecentActivity />

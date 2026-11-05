@@ -367,7 +367,7 @@ function Appointments() {
         {/* -------------------------------- */}
 
         {error && (
-          <div className="rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">
+          <div role="alert" className="rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">
             {error}
           </div>
         )}
@@ -377,7 +377,7 @@ function Appointments() {
         {/* -------------------------------- */}
 
         {success && (
-          <div className="rounded-xl border border-green-200 bg-green-50 px-5 py-4 text-sm text-green-700">
+          <div role="status" className="rounded-xl border border-green-200 bg-green-50 px-5 py-4 text-sm text-green-700">
             {success}
           </div>
         )}
@@ -414,7 +414,7 @@ function Appointments() {
 
           <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
 
-            <table className="w-full min-w-[1000px]">
+            <table className="ps-table w-full min-w-[1000px]">
 
               {/* TABLE HEADER */}
 

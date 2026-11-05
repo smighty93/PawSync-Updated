@@ -20,7 +20,7 @@ function ActionCard({ icon, title, to }) {
 
 function QuickActions() {
   return (
-    <div className="mt-8">
+    <div className="ps-quick-actions mt-8">
       <h2 className="text-2xl font-bold mb-5 text-slate-900">
         Quick Actions
       </h2>
@@ -29,7 +29,7 @@ function QuickActions() {
         <ActionCard
           icon={<PawPrint size={24} />}
           title="Add Pet"
-          to="/my-pets"
+          to="/pets"
         />
 
         <ActionCard

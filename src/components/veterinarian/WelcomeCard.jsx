@@ -135,7 +135,7 @@ function WelcomeCard() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-gradient-to-r from-blue-700 to-blue-500 rounded-2xl shadow-md px-7 py-6 text-white"
+      className="ps-clinical-welcome rounded-2xl px-7 py-6 text-white"
     >
       {/* Main Content */}
       <div className="flex items-center justify-between gap-6">

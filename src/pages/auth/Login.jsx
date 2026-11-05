@@ -1,3 +1,5 @@
+import AuthVisual from "../../components/ui/AuthVisual";
+import Brand from "../../components/ui/Brand";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -8,8 +10,6 @@ import {
   Loader2,
 } from "lucide-react";
 
-import pawSyncLogo from "../../assets/pawsync-logo.png";
-import happyPets from "../../assets/pets-login.png";
 import { useAuth } from "../../context/AuthContext";
 
 function Login() {
@@ -65,59 +65,22 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#F5F8FF] flex flex-col lg:flex-row overflow-x-hidden">
-      <div className="hidden lg:flex relative w-full lg:w-[55%] min-h-screen overflow-hidden bg-[#F3F7FF]">
-        <div className="relative z-30 w-full px-[6%] pt-[6%]">
-          <div className="flex items-start gap-6">
-            <img
-              src={pawSyncLogo}
-              alt="PawSync Logo"
-              className="w-28 h-28 object-contain shrink-0"
-            />
-
-            <div className="pt-4">
-              <h1 className="text-7xl leading-none font-extrabold tracking-tight text-[#164BC5]">
-                PawSync
-              </h1>
-
-              <p className="mt-3 text-2xl leading-relaxed font-medium text-[#536687]">
-                Smart Pet Healthcare &amp; Medical
-                <br />
-                Record System
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="absolute left-0 bottom-0 w-full h-[65%]">
-          <img
-            src={happyPets}
-            alt="Happy dog and cat"
-            className="w-full h-full object-cover object-center"
-          />
-        </div>
-      </div>
-
+    <div className="ps-auth min-h-screen w-full flex flex-col lg:flex-row">
+      <AuthVisual />
       <div className="flex-1 flex items-center justify-center p-6 sm:p-8">
-        <div className="w-full max-w-md bg-white rounded-3xl shadow-xl p-6 sm:p-8">
-          <div className="lg:hidden flex justify-center mb-6">
-            <img
-              src={pawSyncLogo}
-              alt="PawSync"
-              className="w-20 h-20 object-contain"
-            />
-          </div>
-
+        <div className="ps-auth-form w-full max-w-md">
+          <div className="lg:hidden mb-8"><Brand /></div>
+          <p className="ps-eyebrow mb-3">YOUR PET CARE COMPANION</p>
           <h2 className="text-3xl font-bold text-slate-900">
-            Welcome Back 🐾
+            Welcome back.
           </h2>
 
           <p className="text-slate-500 mt-2 mb-8">
-            Sign in to continue to PawSync.
+            A healthier, happier life for your pet starts here.
           </p>
 
           {error && (
-            <div className="mb-5 rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+            <div role="alert" className="mb-5 rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
               {error}
             </div>
           )}
@@ -127,14 +90,15 @@ function Login() {
             className="space-y-5"
           >
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Email
+              <label htmlFor="login-email" className="block text-sm font-medium text-slate-700 mb-2">
+                Email address
               </label>
 
               <div className="relative">
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
 
                 <input
+                  id="login-email"
                   type="email"
                   value={email}
                   onChange={(event) =>
@@ -148,7 +112,7 @@ function Login() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label htmlFor="login-password" className="block text-sm font-medium text-slate-700 mb-2">
                 Password
               </label>
 
@@ -156,6 +120,7 @@ function Login() {
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
 
                 <input
+                  id="login-password"
                   type={
                     showPassword
                       ? "text"
@@ -171,6 +136,8 @@ function Login() {
                 />
 
                 <button
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showPassword}
                   type="button"
                   onClick={() =>
                     setShowPassword(

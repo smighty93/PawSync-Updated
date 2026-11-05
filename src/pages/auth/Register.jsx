@@ -1,3 +1,5 @@
+import AuthVisual from "../../components/ui/AuthVisual";
+import Brand from "../../components/ui/Brand";
 import { useState } from "react";
 import { PawPrint, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
@@ -155,41 +157,12 @@ function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
+    <div className="ps-auth ps-register min-h-screen flex">
       {/* -------------------------------- */}
       {/* LEFT SIDE */}
       {/* -------------------------------- */}
 
-      <div className="hidden lg:flex w-1/2 bg-blue-600 text-white flex-col justify-center px-16">
-        <motion.div
-          initial={{
-            opacity: 0,
-            x: -40,
-          }}
-          animate={{
-            opacity: 1,
-            x: 0,
-          }}
-        >
-          <div className="flex items-center gap-3 mb-8">
-            <PawPrint size={40} />
-
-            <h1 className="text-4xl font-bold">
-              PawSync
-            </h1>
-          </div>
-
-          <h2 className="text-5xl font-bold mb-6">
-            Join PawSync Today
-          </h2>
-
-          <p className="text-xl text-blue-100 leading-9">
-            Create your PawSync account and manage
-            your pets, appointments, medical records,
-            and veterinary services securely.
-          </p>
-        </motion.div>
-      </div>
+      <AuthVisual registration />
 
       {/* -------------------------------- */}
       {/* REGISTRATION FORM */}
@@ -212,19 +185,20 @@ function Register() {
               onSubmit={handleSubmit}
               className="w-full"
             >
+              <div className="lg:hidden mb-6"><Brand /></div>
+              <p className="ps-eyebrow mb-3">WELCOME TO PAWSYNC</p>
               <h2 className="text-3xl font-bold mb-2">
-                Create Account 🐾
+                Create your account.
               </h2>
 
               <p className="text-slate-500 mb-8">
-                Register with your personal and
-                role-specific information.
+                A shared home for better pet healthcare.
               </p>
 
               {/* ERROR */}
 
               {error && (
-                <div className="mb-5 rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+                <div role="alert" className="mb-5 rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
                   {error}
                 </div>
               )}
@@ -232,7 +206,7 @@ function Register() {
               {/* SUCCESS */}
 
               {success && (
-                <div className="mb-5 rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-700">
+                <div role="status" className="mb-5 rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-700">
                   {success}
                 </div>
               )}
@@ -277,11 +251,11 @@ function Register() {
                 {/* -------------------------------- */}
 
                 <div>
-                  <label className="text-sm font-medium text-slate-700">
+                  <label htmlFor="register-role" className="text-sm font-medium text-slate-700">
                     Register As
                   </label>
 
-                  <select
+                  <select id="register-role"
                     value={role}
                     onChange={handleRoleChange}
                     className="w-full mt-2 rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"

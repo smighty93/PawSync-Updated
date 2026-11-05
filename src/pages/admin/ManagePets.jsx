@@ -180,7 +180,7 @@ export default function ManagePets() {
 
           {/* Error */}
           {error && (
-            <div className="m-5 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+            <div role="alert" className="m-5 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
               {error}
             </div>
           )}
@@ -201,7 +201,7 @@ export default function ManagePets() {
           ) : (
             <div className="overflow-x-auto">
 
-              <table className="w-full text-left text-sm text-slate-600">
+              <table className="ps-table w-full text-left text-sm text-slate-600">
 
                 <thead className="bg-slate-50 text-xs text-slate-500 uppercase font-semibold border-b border-slate-100">
 

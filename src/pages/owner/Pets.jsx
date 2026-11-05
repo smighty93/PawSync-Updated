@@ -1,3 +1,4 @@
+import PetPortrait from "../../components/ui/PetPortrait";
 import { useEffect, useState } from "react";
 import { PawPrint, Plus, X } from "lucide-react";
 import OwnerDashboardLayout from "../../components/layout/OwnerDashboardLayout";
@@ -143,7 +144,7 @@ function Pets() {
 
   return (
     <OwnerDashboardLayout>
-      <div className="p-6 md:p-8">
+      <div className="ps-page-content">
         {/* Header */}
         <div className="flex items-center justify-between gap-4">
           <div>
@@ -172,7 +173,7 @@ function Pets() {
 
         {/* Error */}
         {error && (
-          <div className="mt-6 rounded-xl border border-red-200 bg-red-50 p-4 text-red-700">
+          <div role="alert" className="mt-6 rounded-xl border border-red-200 bg-red-50 p-4 text-red-700">
             {error}
           </div>
         )}
@@ -210,8 +211,9 @@ function Pets() {
             {pets.map((pet) => (
               <div
                 key={pet.id}
-                className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md"
+                className="ps-pet-card rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md"
               >
+                <PetPortrait pet={pet} />
                 <div className="flex items-start justify-between">
                   <div>
                     <h2 className="text-xl font-bold text-slate-900">
@@ -268,11 +270,11 @@ function Pets() {
         {/* ADD PET MODAL */}
         {showAddForm && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-            <div className="w-full max-w-lg rounded-2xl bg-white shadow-2xl">
+            <div role="dialog" aria-modal="true" aria-labelledby="add-pet-title" className="w-full max-w-lg rounded-2xl bg-white shadow-2xl">
               {/* Modal Header */}
               <div className="flex items-center justify-between border-b border-slate-200 p-6">
                 <div>
-                  <h2 className="text-2xl font-bold text-slate-900">
+                  <h2 id="add-pet-title" className="text-2xl font-bold text-slate-900">
                     Add Pet
                   </h2>
 
@@ -297,11 +299,11 @@ function Pets() {
               >
                 {/* Name */}
                 <div>
-                  <label className="mb-2 block font-medium text-slate-700">
+                  <label htmlFor="ps-pets-field-3" className="mb-2 block font-medium text-slate-700">
                     Pet Name *
                   </label>
 
-                  <input
+                  <input id="ps-pets-field-3"
                     type="text"
                     name="name"
                     value={form.name}
@@ -314,11 +316,11 @@ function Pets() {
 
                 {/* Species */}
                 <div>
-                  <label className="mb-2 block font-medium text-slate-700">
+                  <label htmlFor="ps-pets-field-4" className="mb-2 block font-medium text-slate-700">
                     Species *
                   </label>
 
-                  <select
+                  <select id="ps-pets-field-4"
                     name="species"
                     value={form.species}
                     onChange={handleChange}
@@ -339,11 +341,11 @@ function Pets() {
 
                 {/* Breed */}
                 <div>
-                  <label className="mb-2 block font-medium text-slate-700">
+                  <label htmlFor="ps-pets-field-5" className="mb-2 block font-medium text-slate-700">
                     Breed
                   </label>
 
-                  <input
+                  <input id="ps-pets-field-5"
                     type="text"
                     name="breed"
                     value={form.breed}
@@ -355,11 +357,11 @@ function Pets() {
 
                 {/* Gender */}
                 <div>
-                  <label className="mb-2 block font-medium text-slate-700">
+                  <label htmlFor="ps-pets-field-6" className="mb-2 block font-medium text-slate-700">
                     Gender
                   </label>
 
-                  <select
+                  <select id="ps-pets-field-6"
                     name="gender"
                     value={form.gender}
                     onChange={handleChange}
@@ -376,11 +378,11 @@ function Pets() {
 
                 {/* Date of Birth */}
                 <div>
-                  <label className="mb-2 block font-medium text-slate-700">
+                  <label htmlFor="ps-pets-field-7" className="mb-2 block font-medium text-slate-700">
                     Date of Birth
                   </label>
 
-                  <input
+                  <input id="ps-pets-field-7"
                     type="date"
                     name="date_of_birth"
                     value={form.date_of_birth}
@@ -391,11 +393,11 @@ function Pets() {
 
                 {/* Weight */}
                 <div>
-                  <label className="mb-2 block font-medium text-slate-700">
+                  <label htmlFor="ps-pets-field-8" className="mb-2 block font-medium text-slate-700">
                     Weight
                   </label>
 
-                  <input
+                  <input id="ps-pets-field-8"
                     type="number"
                     name="weight"
                     value={form.weight}

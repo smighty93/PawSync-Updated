@@ -1,3 +1,4 @@
+import Brand from "../ui/Brand";
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
@@ -11,6 +12,8 @@ import {
   LogOut,
   Menu,
   X,
+  TrendingUp,
+  Bell,
 } from "lucide-react";
 
 import { useAuth } from "../../context/AuthContext";
@@ -35,6 +38,16 @@ const ownerNavItems = [
     name: "Medical Records",
     path: "/medical-records",
     icon: FileText,
+  },
+  {
+    name: "Health Analytics",
+    path: "/analytics",
+    icon: TrendingUp,
+  },
+  {
+    name: "Reminders",
+    path: "/reminders",
+    icon: Bell,
   },
   {
     name: "Profile",
@@ -93,13 +106,14 @@ function OwnerDashboardLayout({ children }) {
     "PawSync Member";
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="ps-shell ps-shell-owner min-h-screen bg-slate-50">
 
+      <a href="#main-content" className="ps-skip-link">Skip to content</a>
       {/* =====================================================
           DESKTOP SIDEBAR
       ===================================================== */}
 
-      <aside className="hidden md:flex w-64 bg-white border-r border-slate-100 flex-col fixed inset-y-0 left-0 z-30">
+      <aside className="ps-sidebar hidden md:flex w-64 bg-white border-r border-slate-100 flex-col fixed inset-y-0 left-0 z-30">
 
         {/* BRAND */}
 
@@ -109,16 +123,7 @@ function OwnerDashboardLayout({ children }) {
             onClick={() => switchDashboard("/dashboard")}
             className="flex items-center gap-2"
           >
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
-              <PawPrint
-                className="w-4 h-4 text-white"
-                strokeWidth={2.2}
-              />
-            </div>
-
-            <span className="text-xl font-bold tracking-tight text-slate-800">
-              Paw<span className="text-blue-600">Sync</span>
-            </span>
+            <Brand />
           </button>
         </div>
 
@@ -182,7 +187,7 @@ function OwnerDashboardLayout({ children }) {
             onClick={() => setShowMobileMenu(false)}
           />
 
-          <aside className="fixed top-0 left-0 bottom-0 w-72 bg-white z-50 shadow-xl md:hidden">
+          <aside className="ps-sidebar fixed top-0 left-0 bottom-0 w-72 bg-white z-50 shadow-xl md:hidden">
 
             {/* MOBILE BRAND */}
 
@@ -192,17 +197,12 @@ function OwnerDashboardLayout({ children }) {
                 onClick={() => switchDashboard("/dashboard")}
                 className="flex items-center gap-2"
               >
-                <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
-                  <PawPrint className="w-4 h-4 text-white" />
-                </div>
-
-                <span className="text-xl font-bold text-slate-800">
-                  Paw<span className="text-blue-600">Sync</span>
-                </span>
+                <Brand />
               </button>
 
               <button
                 type="button"
+                aria-label="Close navigation"
                 onClick={() => setShowMobileMenu(false)}
                 className="p-2 rounded-lg hover:bg-slate-50"
               >
@@ -255,7 +255,7 @@ function OwnerDashboardLayout({ children }) {
             TOP HEADER
         =================================================== */}
 
-        <header className="h-16 bg-white border-b border-slate-100 flex items-center justify-between px-4 sm:px-6 md:px-8 sticky top-0 z-30">
+        <header className="ps-header h-16 bg-white border-b border-slate-100 flex items-center justify-between px-4 sm:px-6 md:px-8 sticky top-0 z-30">
 
           {/* LEFT HEADER */}
 
@@ -265,12 +265,14 @@ function OwnerDashboardLayout({ children }) {
 
             <button
               type="button"
+              aria-label="Open navigation" aria-expanded={showMobileMenu}
               onClick={() => setShowMobileMenu(true)}
               className="md:hidden p-2 rounded-lg hover:bg-slate-50"
             >
               <Menu className="w-5 h-5 text-slate-700" />
             </button>
 
+            <div className="sm:hidden"><Brand /></div>
             {/* PORTAL TITLE */}
 
             <div className="hidden sm:block">
@@ -292,6 +294,7 @@ function OwnerDashboardLayout({ children }) {
 
             <button
               type="button"
+              aria-label="Account menu" aria-expanded={showProfile}
               onClick={() => {
                 setShowProfile((value) => !value);
                 setShowDashboards(false);
@@ -384,7 +387,7 @@ function OwnerDashboardLayout({ children }) {
             PAGE CONTENT
         =================================================== */}
 
-        <main className="p-4 sm:p-6 md:p-8">
+        <main id="main-content" className="ps-main p-4 sm:p-6 md:p-8">
           {children}
         </main>
       </div>

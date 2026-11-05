@@ -4,9 +4,9 @@ import { motion } from 'framer-motion';
 export default function StatsCard({ title, value, change, icon: Icon }) {
   return (
     <motion.div
-      whileHover={{ y: -4 }}
+      whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
-      className="bg-white rounded-xl shadow-sm border border-slate-100 p-6 flex items-center justify-between"
+      className="ps-stat-card bg-white rounded-xl shadow-sm border border-slate-100 p-6 flex items-center justify-between"
     >
       <div>
         <p className="text-sm font-medium text-slate-500">{title}</p>

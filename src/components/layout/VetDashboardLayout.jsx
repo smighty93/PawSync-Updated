@@ -1,3 +1,4 @@
+import Brand from "../ui/Brand";
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
@@ -42,27 +43,20 @@ export default function VetDashboardLayout({ children }) {
   const displayName =
     user?.user_metadata?.full_name || "Veterinarian";
 
-  const filteredVetMenu = vetMenu.filter(
-    (item) => item.title !== "Patient Records"
-  );
+  const filteredVetMenu = vetMenu;
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="ps-shell ps-shell-vet min-h-screen bg-slate-50">
 
+      <a href="#main-content" className="ps-skip-link">Skip to content</a>
       {/* ================= DESKTOP SIDEBAR ================= */}
 
-      <aside className="hidden md:flex fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-slate-200 flex-col">
+      <aside className="ps-sidebar hidden md:flex fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-slate-200 flex-col">
 
         {/* Logo */}
         <div className="h-16 flex items-center px-6 border-b border-slate-100">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white text-sm">
-              🐾
-            </div>
-
-            <span className="text-lg font-bold text-slate-800 tracking-tight">
-              Paw<span className="text-blue-600">Sync</span>
-            </span>
+            <Brand />
           </div>
         </div>
 
@@ -75,6 +69,7 @@ export default function VetDashboardLayout({ children }) {
               <NavLink
                 key={item.title}
                 to={item.path}
+                end={item.path === "/veterinarian"}
                 className={({ isActive }) =>
                   `group flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] transition-all duration-200 ${
                     isActive
@@ -124,22 +119,17 @@ export default function VetDashboardLayout({ children }) {
             onClick={() => setShowMobileMenu(false)}
           />
 
-          <aside className="fixed top-0 left-0 bottom-0 w-72 bg-white z-50 shadow-xl md:hidden">
+          <aside className="ps-sidebar fixed top-0 left-0 bottom-0 w-72 bg-white z-50 shadow-xl md:hidden">
 
             {/* Mobile Header */}
             <div className="h-16 px-5 flex items-center justify-between border-b border-slate-100">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white text-sm">
-                  🐾
-                </div>
-
-                <span className="text-lg font-bold text-slate-800">
-                  Paw<span className="text-blue-600">Sync</span>
-                </span>
+                <Brand />
               </div>
 
               <button
                 type="button"
+                aria-label="Close navigation"
                 onClick={() => setShowMobileMenu(false)}
                 className="p-2 rounded-lg text-slate-500 hover:bg-slate-100"
               >
@@ -156,6 +146,7 @@ export default function VetDashboardLayout({ children }) {
                   <NavLink
                     key={item.title}
                     to={item.path}
+                end={item.path === "/veterinarian"}
                     onClick={() => setShowMobileMenu(false)}
                     className={({ isActive }) =>
                       `flex items-center gap-3 px-4 py-3 rounded-lg text-[13px] ${
@@ -181,18 +172,20 @@ export default function VetDashboardLayout({ children }) {
 
         {/* ================= TOP HEADER ================= */}
 
-        <header className="h-16 bg-white border-b border-slate-200 sticky top-0 z-30">
+        <header className="ps-header h-16 bg-white border-b border-slate-200 sticky top-0 z-30">
           <div className="h-full px-4 sm:px-6 md:px-8 flex items-center justify-between">
 
             {/* Mobile Menu */}
             <button
               type="button"
+              aria-label="Open navigation" aria-expanded={showMobileMenu}
               onClick={() => setShowMobileMenu(true)}
               className="md:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100"
             >
               <Menu className="w-5 h-5" />
             </button>
 
+            <div className="md:hidden"><Brand /></div>
             {/* Desktop Header Title */}
             <div className="hidden md:block">
               <p className="text-xs text-slate-400">
@@ -209,7 +202,8 @@ export default function VetDashboardLayout({ children }) {
 
               <button
                 type="button"
-                onClick={() => {
+                aria-label="Account menu" aria-expanded={showProfile}
+              onClick={() => {
                   setShowProfile((value) => !value);
                   setShowDashboards(false);
                 }}
@@ -296,7 +290,7 @@ export default function VetDashboardLayout({ children }) {
 
         {/* ================= PAGE CONTENT ================= */}
 
-        <main className="p-4 sm:p-6 md:p-8">
+        <main id="main-content" className="ps-main p-4 sm:p-6 md:p-8">
           {children}
         </main>
 

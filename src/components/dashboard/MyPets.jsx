@@ -1,3 +1,4 @@
+import PetPortrait from "../ui/PetPortrait";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
@@ -51,7 +52,7 @@ function MyPets() {
   }
 
   return (
-    <div className="mt-10">
+    <div className="ps-pet-section">
       <div className="flex justify-between items-center mb-5">
         <h2 className="text-2xl font-bold text-slate-900">
           My Pets
@@ -101,8 +102,9 @@ function MyPets() {
           {pets.map((pet) => (
             <div
               key={pet.id}
-              className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm"
+              className="ps-pet-card bg-white rounded-2xl border border-slate-200 p-5 shadow-sm"
             >
+              <PetPortrait pet={pet} />
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-xl font-bold text-slate-900">

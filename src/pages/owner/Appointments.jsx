@@ -253,7 +253,7 @@ function Appointments() {
 
   return (
     <OwnerDashboardLayout>
-      <div className="p-6 md:p-8">
+      <div className="ps-page-content">
         {/* Header */}
 
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -279,7 +279,7 @@ function Appointments() {
         {/* Error */}
 
         {error && (
-          <div className="mt-6 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-red-600">
+          <div role="alert" className="mt-6 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-red-600">
             {error}
           </div>
         )}
@@ -429,7 +429,7 @@ function Appointments() {
               {/* Pet */}
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                <label htmlFor="ps-appointments-field-9" className="mb-2 block text-sm font-semibold text-slate-700">
                   Pet
                 </label>
 
@@ -470,7 +470,7 @@ function Appointments() {
                   Date & Time
                 </label>
 
-                <input
+                <input id="ps-appointments-field-9"
                   type="datetime-local"
                   name="appointment_date"
                   value={
@@ -488,11 +488,11 @@ function Appointments() {
               {/* Reason */}
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                <label htmlFor="ps-appointments-field-10" className="mb-2 block text-sm font-semibold text-slate-700">
                   Reason
                 </label>
 
-                <input
+                <input id="ps-appointments-field-10"
                   type="text"
                   name="reason"
                   value={formData.reason}
@@ -506,11 +506,11 @@ function Appointments() {
               {/* Notes */}
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                <label htmlFor="ps-appointments-field-11" className="mb-2 block text-sm font-semibold text-slate-700">
                   Notes
                 </label>
 
-                <textarea
+                <textarea id="ps-appointments-field-11"
                   name="notes"
                   value={formData.notes}
                   onChange={handleChange}
