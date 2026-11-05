@@ -14,6 +14,7 @@ import {
   X,
   TrendingUp,
   Bell,
+  Clock,
 } from "lucide-react";
 
 import { useAuth } from "../../context/AuthContext";
@@ -48,6 +49,11 @@ const ownerNavItems = [
     name: "Reminders",
     path: "/reminders",
     icon: Bell,
+  },
+  {
+    name: "Timeline",
+    path: "/timeline",
+    icon: Clock,
   },
   {
     name: "Profile",

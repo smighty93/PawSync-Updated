@@ -32,6 +32,7 @@ import MedicalRecords from "../pages/owner/MedicalRecords";
 import Profile from "../pages/owner/Profile";
 import OwnerAnalytics from "../pages/owner/Analytics";
 import Reminders from "../pages/owner/Reminders";
+import Timeline from "../pages/owner/Timeline";
 
 // =====================================================
 // VETERINARIAN - MOBILE
@@ -391,6 +392,21 @@ function AppRoutes() {
               allowedRoles={["pet_owner"]}
             >
               <Reminders />
+            </RoleRoute>
+          }
+        />
+
+        {/* =================================================
+            PET OWNER - TIMELINE
+        ================================================= */}
+
+        <Route
+          path="/timeline"
+          element={
+            <RoleRoute
+              allowedRoles={["pet_owner"]}
+            >
+              <Timeline />
             </RoleRoute>
           }
         />
