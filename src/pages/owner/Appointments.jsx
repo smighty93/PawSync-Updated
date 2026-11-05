@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { X, CalendarDays } from "lucide-react";
 import OwnerDashboardLayout from "../../components/layout/OwnerDashboardLayout";
 import { supabase } from "../../lib/supabase";
+import PetPortrait from "../../components/ui/PetPortrait";
 
 function Appointments() {
   const [appointments, setAppointments] = useState([]);
@@ -321,87 +322,87 @@ function Appointments() {
         ) : (
           /* Appointment List */
 
-          <div className="mt-8 grid gap-6 md:grid-cols-2">
-            {appointments.map(
-              (appointment) => (
-                <div
-                  key={appointment.id}
-                  className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                   <div className="flex items-center gap-3">
-  <img
-    src={getPetPhoto(appointment.pets?.photo_url)}
-    alt={appointment.pets?.name || "Pet"}
-    className="h-14 w-14 rounded-full object-cover"
-  />
+          
+<div className="mt-8 grid gap-6 md:grid-cols-2">
+  {appointments.map((appointment) => (
+    <div
+      key={appointment.id}
+      className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+    >
+      {/* Pet Header */}
+      <div className="flex items-start justify-between gap-4">
 
-  <div>
-    <h2 className="text-xl font-bold text-slate-900">
-      {appointment.pets?.name || "Pet"}
-    </h2>
+        <div className="flex min-w-0 items-center gap-4">
+          <PetPortrait
+            pet={appointment.pets}
+            compact
+          />
 
-    <p className="mt-1 text-sm text-slate-500">
-      {appointment.pets?.species || ""}
-      {appointment.pets?.breed
-        ? ` • ${appointment.pets.breed}`
-        : ""}
-    </p>
-  </div>
-</div>
+          <div className="min-w-0">
+            <h2 className="text-xl font-bold text-slate-900">
+              {appointment.pets?.name || "Pet"}
+            </h2>
 
-                    <span
-                      className={`rounded-full px-3 py-1 text-xs font-semibold capitalize ${getStatusClass(
-                        appointment.status
-                      )}`}
-                    >
-                      {appointment.status}
-                    </span>
-                  </div>
+            <p className="mt-2 text-sm text-slate-500">
+              {appointment.pets?.species || ""}
+            </p>
 
-                  <div className="mt-6 space-y-4">
-                    <div>
-                      <p className="text-sm font-medium text-slate-400">
-                        Date & Time
-                      </p>
+            <p className="text-sm text-slate-500">
+              {appointment.pets?.breed || ""}
+            </p>
+          </div>
+        </div>
 
-                      <p className="mt-1 font-semibold text-slate-700">
-                        {formatDate(
-                          appointment.appointment_date
-                        )}
-                      </p>
-                    </div>
+        {/* Appointment Status */}
+        <span
+          className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold capitalize ${getStatusClass(
+            appointment.status
+          )}`}
+        >
+          {appointment.status}
+        </span>
+      </div>
 
-                    <div>
-                      <p className="text-sm font-medium text-slate-400">
-                        Reason
-                      </p>
+      {/* Appointment Details */}
+      <div className="mt-6 space-y-4">
 
-                      <p className="mt-1 font-semibold text-slate-700">
-                        {appointment.reason ||
-                          "—"}
-                      </p>
-                    </div>
+        <div>
+          <p className="text-sm font-medium text-slate-400">
+            Date & Time
+          </p>
 
-                    {appointment.notes && (
-                      <div>
-                        <p className="text-sm font-medium text-slate-400">
-                          Notes
-                        </p>
+          <p className="mt-1 font-semibold text-slate-700">
+            {formatDate(appointment.appointment_date)}
+          </p>
+        </div>
 
-                        <p className="mt-1 text-slate-600">
-                          {appointment.notes}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )
-            )}
+        <div>
+          <p className="text-sm font-medium text-slate-400">
+            Reason
+          </p>
+
+          <p className="mt-1 font-semibold text-slate-700">
+            {appointment.reason || "—"}
+          </p>
+        </div>
+
+        {appointment.notes && (
+          <div>
+            <p className="text-sm font-medium text-slate-400">
+              Notes
+            </p>
+
+            <p className="mt-1 text-slate-600">
+              {appointment.notes}
+            </p>
           </div>
         )}
 
-        {/* Booking Form */}
+      </div>
+    </div>
+  ))}
+</div>
+        )}
 
         {showForm && (
           <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
