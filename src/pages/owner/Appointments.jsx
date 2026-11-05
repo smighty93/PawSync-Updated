@@ -80,12 +80,13 @@ function Appointments() {
             status,
             notes,
             created_at,
-            pets (
-              id,
-              name,
-              species,
-              breed
-            )
+           pets: pets!appointments_pet_id_fkey (
+  id,
+  name,
+  species,
+  breed,
+  photo_url
+)
           `
         )
         .in("pet_id", petIds)
@@ -328,22 +329,26 @@ function Appointments() {
                   className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
                 >
                   <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <h2 className="text-xl font-bold text-slate-900">
-                        {appointment.pets
-                          ?.name || "Pet"}
-                      </h2>
+                   <div className="flex items-center gap-3">
+  <img
+    src={getPetPhoto(appointment.pets?.photo_url)}
+    alt={appointment.pets?.name || "Pet"}
+    className="h-14 w-14 rounded-full object-cover"
+  />
 
-                      <p className="mt-1 text-sm text-slate-500">
-                        {appointment.pets
-                          ?.species || ""}
+  <div>
+    <h2 className="text-xl font-bold text-slate-900">
+      {appointment.pets?.name || "Pet"}
+    </h2>
 
-                        {appointment.pets
-                          ?.breed
-                          ? ` • ${appointment.pets.breed}`
-                          : ""}
-                      </p>
-                    </div>
+    <p className="mt-1 text-sm text-slate-500">
+      {appointment.pets?.species || ""}
+      {appointment.pets?.breed
+        ? ` • ${appointment.pets.breed}`
+        : ""}
+    </p>
+  </div>
+</div>
 
                     <span
                       className={`rounded-full px-3 py-1 text-xs font-semibold capitalize ${getStatusClass(

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import VetDashboardLayout from "../../components/layout/VetDashboardLayout";
 import { supabase } from "../../lib/supabase";
+import { getPetPhoto } from "../../utils/petPhoto";
 
 function Appointments() {
   const [appointments, setAppointments] = useState([]);
@@ -38,7 +39,8 @@ function Appointments() {
               name,
               species,
               breed,
-              owner_id
+              owner_id,
+              photo_url
             )
           `)
           .order("appointment_date", {
@@ -64,6 +66,7 @@ function Appointments() {
             .filter(Boolean)
         ),
       ];
+      
 
       let profiles = [];
 
@@ -84,6 +87,7 @@ function Appointments() {
         }
 
         profiles = profileData || [];
+
       }
 
       // -----------------------------------------
@@ -462,27 +466,30 @@ function Appointments() {
                       key={appointment.id}
                       className="border-b border-slate-100 last:border-b-0"
                     >
+                    
+                     {/* PET */}
+<td className="px-6 py-5">
+  <div className="flex items-center gap-3">
+    <img
+      src={getPetPhoto(appointment.pets?.photo_url)}
+      alt={appointment.pets?.name || "Pet"}
+      className="h-12 w-12 rounded-full object-cover"
+    />
 
-                      {/* PET */}
+    <div>
+      <p className="font-semibold text-slate-900">
+        {appointment.pets?.name || "Unknown Pet"}
+      </p>
 
-                      <td className="px-6 py-5">
-
-                        <p className="font-semibold text-slate-900">
-                          {appointment.pets?.name ||
-                            "Unknown Pet"}
-                        </p>
-
-                        <p className="mt-1 text-sm text-slate-500">
-                          {appointment.pets
-                            ?.species || ""}
-
-                          {appointment.pets
-                            ?.breed
-                            ? ` • ${appointment.pets.breed}`
-                            : ""}
-                        </p>
-
-                      </td>
+      <p className="mt-1 text-sm text-slate-500">
+        {appointment.pets?.species || ""}
+        {appointment.pets?.breed
+          ? ` • ${appointment.pets.breed}`
+          : ""}
+      </p>
+    </div>
+  </div>
+</td>
 
                       {/* OWNER */}
 

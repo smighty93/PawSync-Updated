@@ -33,26 +33,27 @@ function UpcomingConsultations() {
         String(today.getDate()).padStart(2, "0");
 
       const { data, error } = await supabase
-        .from("appointments")
-        .select(`
-          id,
-          appointment_date,
-          appointment_time,
-          status,
-          pets (
-            id,
-            name,
-            owner_id
-          )
-        `)
-        .eq("veterinarian_id", user.id)
-        .eq("appointment_date", todayString)
-        .in("status", ["pending", "confirmed"])
-        .order("appointment_time", {
-          ascending: true,
-        });
+  .from("appointments")
+  .select(`
+    id,
+    appointment_date,
+    status,
+    reason,
+    pets (
+      id,
+      name,
+      owner_id
+    )
+  `)
+  .eq("veterinarian_id", user.id)
+  .gte("appointment_date", now.toISOString())
+  .in("status", ["pending", "confirmed"])
+  .order("appointment_date", {
+    ascending: true,
+  })
+  .limit(5);
 
-      if (error) throw error;
+if (error) throw error;
 
       const appointments = data || [];
 
@@ -88,8 +89,8 @@ function UpcomingConsultations() {
           );
 
           const appointmentDateTime = new Date(
-            `${appointment.appointment_date}T${appointment.appointment_time}`
-          );
+  appointment.appointment_date
+);
 
           return {
             ...appointment,
@@ -180,7 +181,12 @@ function UpcomingConsultations() {
               </div>
 
               <span className="text-blue-600 font-semibold">
-                {formatTime(item.appointment_time)}
+               {item.appointmentDateTime.toLocaleString([], {
+  day: "2-digit",
+  month: "short",
+  hour: "2-digit",
+  minute: "2-digit",
+})}
               </span>
             </div>
           ))}

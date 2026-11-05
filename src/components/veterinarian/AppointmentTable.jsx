@@ -70,6 +70,7 @@ function AppointmentTable() {
             owner_id
           )
         `)
+        .eq("veterinarian_id", user.id)
         .gte(
           "appointment_date",
           startOfDay.toISOString()

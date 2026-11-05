@@ -39,7 +39,191 @@ input, textarea, select { font:inherit; }
 .ps-password-toggle:hover { background:var(--ps-soft); }
 .ps-card { border:1px solid var(--ps-line); box-shadow:0 8px 24px #18322a05; }
 .ps-button { min-height:46px; }
-.ps-brand { display:flex; align-items:center; gap:11px; }
+
+/* PAWSYNC BRAND */
+
+.ps-brand {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  flex-wrap: nowrap;
+}
+
+.ps-brand-icon {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.ps-brand-name {
+  color: #0754C7;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.ps-brand-name > span {
+  color: #0754C7;
+}
+  
+
+.ps-brand-logo {
+  display: block;
+  width: 100%;
+  max-width: 390px;
+  height: auto;
+  max-height: 105px;
+  object-fit: contain;
+  object-position: center;
+}
+
+.ps-brand-subtitle {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #315b45;
+  text-align: center;
+}
+
+/* LEFT AUTH PANEL */
+.ps-auth-visual {
+  display: flex;
+  flex-direction: column;
+  width: 51%;
+  height: 100vh;
+  min-height: 0;
+  padding: 24px 6% 18px;
+  background: #eeefe4;
+  overflow: hidden;
+}
+
+.ps-auth-brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.ps-auth-story {
+  margin: 26px 0 18px;
+  text-align: left;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.ps-auth-story .ps-eyebrow {
+  color: #5f7563;
+  justify-content: left;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.ps-auth-story h1 {
+  font-size: clamp(36px, 3.2vw, 52px);
+  line-height: 1.1;
+  letter-spacing: -2px;
+  font-weight: 800;
+  margin: 16px 0;
+  color: #214637;
+}
+
+.ps-auth-story p {
+  max-width: 470px;
+  margin: 0 ;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #667469;
+  text-align: left;
+}
+
+/* PET PHOTO */
+.ps-auth-photo {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin-top: 12px;
+  overflow: hidden;
+  display: flex;
+}
+
+.ps-auth-photo > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  max-height: none;
+  object-fit: cover;
+  object-position: center 45%;
+  border-radius: 65px 65px 20px 20px;
+}
+
+.ps-photo-blend {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20%;
+  background: linear-gradient(
+    to bottom,
+    #eeefe4,
+    rgba(238,239,228,.55),
+    transparent
+  );
+  pointer-events: none;
+}
+
+.ps-photo-note {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  right: 14px;
+  background: #fffef5;
+  color: #315b45;
+  border-radius: 18px;
+  padding: 16px 20px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  box-shadow: 0 10px 25px #14362912;
+}
+
+.ps-photo-note strong {
+  display: block;
+  font-size: 15px;
+}
+
+.ps-photo-note span {
+  display: block;
+  font-size: 12px;
+  color: #6b7b6e;
+  margin-top: 4px;
+}
+
+/* BOTTOM FEATURES */
+.ps-auth-features {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  flex-shrink: 0;
+  margin-top: 16px;
+  color: #315b45;
+  font-size: 13px;
+}
+
+.ps-auth-features > span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
 .ps-brand-mark { width:43px; height:43px; display:grid; place-items:center; background:var(--ps-accent); color:#fff; border-radius:14px; }
 .ps-brand-name { font-size:25px; font-weight:750; letter-spacing:-1.1px; line-height:1; }
 .ps-brand-name>span { color:#df997e; }
@@ -539,4 +723,107 @@ input, textarea, select { font:inherit; }
   position: absolute;
   inset: 0;
   border-radius: 14px;
+}
+
+/* PAWSYNC LOGIN — LEFT PANEL CORRECTION */
+@media (min-width: 1024px) {
+  .ps-auth-visual {
+    padding: 24px 6% 18px;
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .ps-auth-visual .ps-brand {
+  display: flex;
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+}
+
+.ps-auth-visual .ps-brand-icon {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.ps-auth-visual .ps-brand-name {
+  display: inline-block;
+  color: #0754C7;
+  font-size: 60px;
+  font-weight: 700;
+  white-space: nowrap;
+  margin: 0;
+}
+
+  .ps-auth-visual .ps-brand-logo {
+    width: 100%;
+    max-width: 440px;
+    height: 105px;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .ps-auth-visual .ps-brand-subtitle {
+    margin-top: 5px;
+    text-align: center;
+    font-size: 12px;
+  }
+
+  .ps-auth-story {
+    margin: 24px 0 12px;
+    text-align: left;
+    flex-shrink: 0;
+  }
+
+  .ps-auth-story .ps-eyebrow {
+    justify-content: left;
+  }
+
+  .ps-auth-story h1 {
+    font-size: clamp(34px, 3vw, 48px);
+    line-height: 1.1;
+    margin: 14px 0;
+  }
+
+  .ps-auth-story p {
+    max-width: 470px;
+    margin: 0 ;
+    font-size: 13px;
+    text-align: left;
+  }
+
+  .ps-auth-photo {
+    flex: 1;
+    min-height: 0;
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .ps-auth-photo > img {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    min-height: 0;
+    object-fit: cover;
+    object-position: center 45%;
+    border-radius: 65px 65px 20px 20px;
+  }
+
+  .ps-auth-features {
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 12px;
+    gap: 28px;
+    font-size: 12px;
+  }
 }

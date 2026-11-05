@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   ArrowLeft, Syringe, FileText, Scale, CalendarDays,
   ShieldCheck, AlertCircle, Dog, CheckCircle2, Clock,
+  Pencil, X, Save
 } from "lucide-react";
 import OwnerDashboardLayout from "../../components/layout/OwnerDashboardLayout";
 import { supabase } from "../../lib/supabase";
@@ -85,10 +86,123 @@ function PetProfile() {
   const [apts,    setApts]    = useState([]);
   const [loading, setLoading] = useState(true);
   const [error,   setError]   = useState("");
+  const [editOpen, setEditOpen] = useState(false);
+const [saving, setSaving] = useState(false);
+const [editError, setEditError] = useState("");
+const [photoFile, setPhotoFile] = useState(null);
+const [photoPreview, setPhotoPreview] = useState("");
+
+const [form, setForm] = useState({
+  name: "",
+  species: "",
+  breed: "",
+  gender: "",
+  date_of_birth: "",
+  weight: "",
+  vaccination_status: "unknown",
+  is_neutered: false,
+  allergies: "",
+  medical_conditions: "",
+  microchip_id: "",
+  special_notes: "",
+});
 
   useEffect(() => {
     loadAll();
   }, [id]);
+  useEffect(() => {
+  if (!pet) return;
+
+  setForm({
+  name: pet.name || "",
+  species: pet.species || "",
+  breed: pet.breed || "",
+  gender: pet.gender || "",
+  date_of_birth: pet.date_of_birth || "",
+  weight: pet.weight ?? "",
+  vaccination_status: pet.vaccination_status || "unknown",
+  is_neutered: pet.is_neutered ?? false,
+  allergies: pet.allergies || "",
+  medical_conditions: pet.medical_conditions || "",
+  microchip_id: pet.microchip_id || "",
+  special_notes: pet.special_notes || "",
+});
+}, [pet]);
+const handleSaveProfile = async (e) => {
+  e.preventDefault();
+
+  if (!pet) return;
+
+  setSaving(true);
+  setEditError("");
+
+  try {
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError) throw userError;
+    if (!user) throw new Error("Please log in again.");
+
+let uploadedPhotoPath = pet.photo_url;
+if (photoFile) {
+  const safeFileName = photoFile.name.replace(
+    /[^a-zA-Z0-9.-]/g,
+    "_"
+  );
+
+  const filePath = `${user.id}/${pet.id}/${Date.now()}-${safeFileName}`;
+
+  const { data, error: uploadError } = await supabase.storage
+    .from("pet-photos")
+    .upload(filePath, photoFile, {
+      contentType: photoFile.type,
+      upsert: false,
+    });
+
+  if (uploadError) throw uploadError;
+
+  uploadedPhotoPath = data.path;
+}
+
+    const { error } = await supabase
+      .from("pets")
+      .update({
+  name: form.name.trim(),
+  species: form.species,
+  breed: form.breed.trim(),
+  gender: form.gender,
+  date_of_birth: form.date_of_birth || null,
+  weight: form.weight === "" ? null : Number(form.weight),
+  photo_url: uploadedPhotoPath,
+  vaccination_status: form.vaccination_status,
+  is_neutered: form.is_neutered,
+  allergies: form.allergies.trim() || null,
+  medical_conditions: form.medical_conditions.trim() || null,
+  microchip_id: form.microchip_id.trim() || null,
+  special_notes: form.special_notes.trim() || null,
+  updated_at: new Date().toISOString(),
+})
+      .eq("id", pet.id)
+      .eq("owner_id", user.id);
+
+    if (error) throw error;
+
+await loadAll();
+
+// Clear selected photo and preview
+setPhotoFile(null);
+setPhotoPreview("");
+
+// Close edit popup
+setEditOpen(false);
+  } catch (err) {
+    setEditError(err.message || "Unable to update pet profile.");
+  } finally {
+    setSaving(false);
+  }
+};
 
   async function loadAll() {
     setLoading(true);
@@ -190,9 +304,25 @@ function PetProfile() {
                   {pet.species}{pet.breed ? ` • ${pet.breed}` : ""}{pet.gender ? ` • ${pet.gender}` : ""}
                 </p>
               </div>
-              <span className={`rounded-full px-3 py-1 text-xs font-bold ${VACC_COLORS[pet.vaccination_status] || VACC_COLORS.unknown}`}>
-                {VACC_LABELS[pet.vaccination_status] || "Unknown"}
-              </span>
+              <div className="flex items-center gap-3 flex-wrap">
+
+  <span className={`rounded-full px-3 py-1 text-xs font-bold ${VACC_COLORS[pet.vaccination_status] || ""}`}>
+    {VACC_LABELS[pet.vaccination_status] || "Unknown"}
+  </span>
+
+  <button
+    type="button"
+    onClick={() => {
+      setEditError("");
+      setEditOpen(true);
+    }}
+    className="inline-flex items-center gap-2 rounded-xl bg-[#062F4A] px-4 py-2 text-white hover:bg-[#0B405F]"
+  >
+    <Pencil size={16} />
+    Edit Profile
+  </button>
+
+</div>
             </div>
 
             <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -368,6 +498,241 @@ function PetProfile() {
         </div>
 
       </div>
+
+{editOpen && (
+  <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+    <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6">
+
+      {/* Header */}
+      <div className="flex items-center justify-between mb-5">
+        <div>
+          <h2 className="text-xl font-bold text-[#062F4A]">
+            Edit Pet Profile
+          </h2>
+          <p className="text-xs text-slate-500 mt-1">
+            Update {pet?.name}'s information
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setEditOpen(false)}
+          className="p-2 rounded-lg hover:bg-slate-100"
+        >
+          <X size={20} />
+        </button>
+      </div>
+
+      {/* Edit Form */}
+      <form onSubmit={handleSaveProfile} className="space-y-4">{/* Pet Photo Upload */}
+<div className="mb-5">
+  <label className="block text-sm font-semibold text-slate-700 mb-2">
+    Pet Profile Photo
+  </label>
+
+  <div className="flex items-center gap-4">
+    <div className="w-24 h-24 rounded-xl overflow-hidden bg-slate-100 border flex items-center justify-center">
+      {(photoPreview || photo) ? (
+        <img
+          src={photoPreview || photo}
+          alt="Pet preview"
+          className="w-full h-full object-cover"
+        />
+      ) : (
+        <Dog size={35} className="text-slate-400" />
+      )}
+    </div>
+
+    <div className="flex-1">
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (!file) return;
+
+          if (!file.type.startsWith("image/")) {
+            setEditError("Please select an image file.");
+            return;
+          }
+
+          if (file.size > 5 * 1024 * 1024) {
+            setEditError("Image must be smaller than 5 MB.");
+            return;
+          }
+
+          setEditError("");
+          setPhotoFile(file);
+          setPhotoPreview(URL.createObjectURL(file));
+        }}
+        className="w-full text-sm"
+      />
+
+      <p className="text-xs text-slate-500 mt-2">
+        JPG, PNG or other image formats. Maximum size: 5 MB.
+      </p>
+    </div>
+  </div>
+</div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+          {/* Pet Name */}
+          <label className="text-sm font-semibold text-slate-700">
+            Pet Name
+            <input
+              required
+              value={form.name}
+              onChange={e => setForm({...form, name: e.target.value})}
+              className="mt-1 w-full border rounded-lg p-3"
+            />
+          </label>
+
+          {/* Species */}
+          <label className="text-sm font-semibold text-slate-700">
+            Species
+            <select
+              value={form.species}
+              onChange={e => setForm({...form, species: e.target.value})}
+              className="mt-1 w-full border rounded-lg p-3"
+            >
+              <option value="">Select species</option>
+              <option value="Dog">Dog</option>
+              <option value="Cat">Cat</option>
+              <option value="Bird">Bird</option>
+              <option value="Other">Other</option>
+            </select>
+          </label>
+
+          {/* Breed */}
+          <label className="text-sm font-semibold text-slate-700">
+            Breed
+            <input
+              value={form.breed}
+              onChange={e => setForm({...form, breed: e.target.value})}
+              className="mt-1 w-full border rounded-lg p-3"
+            />
+          </label>
+
+          {/* Gender */}
+          <label className="text-sm font-semibold text-slate-700">
+            Gender
+            <select
+              value={form.gender}
+              onChange={e => setForm({...form, gender: e.target.value})}
+              className="mt-1 w-full border rounded-lg p-3"
+            >
+              <option value="">Select gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </label>
+
+          {/* Date of Birth */}
+          <label className="text-sm font-semibold text-slate-700">
+            Date of Birth
+            <input
+              type="date"
+              value={form.date_of_birth}
+              onChange={e => setForm({...form, date_of_birth: e.target.value})}
+              className="mt-1 w-full border rounded-lg p-3"
+            />
+          </label>
+
+          {/* Weight */}
+          <label className="text-sm font-semibold text-slate-700">
+            Weight (kg)
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              value={form.weight}
+              onChange={e => setForm({...form, weight: e.target.value})}
+              className="mt-1 w-full border rounded-lg p-3"
+            />
+          </label>
+
+          {/* Vaccination Status */}
+          <label className="text-sm font-semibold text-slate-700 sm:col-span-2">
+            Vaccination Status
+            <select
+              value={form.vaccination_status}
+              onChange={e => setForm({...form, vaccination_status: e.target.value})}
+              className="mt-1 w-full border rounded-lg p-3"
+            >
+              <option value="unknown">Unknown</option>
+              <option value="fully_vaccinated">Fully Vaccinated</option>
+              <option value="partially_vaccinated">Partially Vaccinated</option>
+              <option value="not_vaccinated">Not Vaccinated</option>
+            </select>
+          </label>
+
+          {/* Neutered */}
+          <label className="text-sm font-semibold text-slate-700 sm:col-span-2 flex items-center">
+            <input
+              type="checkbox"
+              checked={form.is_neutered}
+              onChange={e => setForm({...form, is_neutered: e.target.checked})}
+              className="mr-2"
+            />
+            Neutered / Spayed
+          </label>
+
+          {/* Additional Information */}
+          {[
+            ["allergies", "Known Allergies"],
+            ["medical_conditions", "Medical Conditions"],
+            ["microchip_id", "Microchip ID"],
+            ["special_notes", "Special Notes"],
+          ].map(([key, label]) => (
+            <label
+              key={key}
+              className="text-sm font-semibold text-slate-700 sm:col-span-2"
+            >
+              {label}
+              <textarea
+                rows="2"
+                value={form[key]}
+                onChange={e => setForm({...form, [key]: e.target.value})}
+                className="mt-1 w-full border rounded-lg p-3 resize-y"
+              />
+            </label>
+          ))}
+
+        </div>
+
+        {/* Error */}
+        {editError && (
+          <p className="text-sm text-red-600">{editError}</p>
+        )}
+
+        {/* Footer Buttons */}
+        <div className="flex justify-end gap-3 pt-3">
+
+          <button
+            type="button"
+            onClick={() => setEditOpen(false)}
+            className="px-4 py-2 rounded-lg border text-sm"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            disabled={saving}
+            className="px-5 py-2 rounded-lg bg-[#062F4A] text-white text-sm font-semibold disabled:opacity-50"
+          >
+            <Save size={15} className="inline mr-2" />
+            {saving ? "Saving..." : "Save Changes"}
+          </button>
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+)}
+
     </OwnerDashboardLayout>
   );
 }

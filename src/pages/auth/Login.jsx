@@ -70,9 +70,9 @@ function Login() {
       <div className="flex-1 flex items-center justify-center p-6 sm:p-8">
         <div className="ps-auth-form w-full max-w-md">
           <div className="lg:hidden mb-8"><Brand /></div>
-          <p className="ps-eyebrow mb-3">YOUR PET CARE COMPANION</p>
+          <p className="ps-eyebrow mb-5">YOUR PET CARE COMPANION</p>
           <h2 className="text-3xl font-bold text-slate-900">
-            Welcome back.
+            Welcome!
           </h2>
 
           <p className="text-slate-500 mt-2 mb-8">

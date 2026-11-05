@@ -135,7 +135,7 @@ function Analytics() {
           .order("recorded_at", { ascending: true }),
         supabase
           .from("vaccinations")
-          .select("id, vaccine_name, vaccination_date, next_due_date, status")
+          .select("id, vaccine_name, vaccination_date, next_due_date, status, notes")
           .eq("pet_id", petId)
           .order("vaccination_date", { ascending: false }),
         supabase

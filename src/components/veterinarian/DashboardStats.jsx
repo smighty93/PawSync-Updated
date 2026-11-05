@@ -22,138 +22,140 @@ function DashboardStats() {
     loadStats();
   }, []);
 
-  async function loadStats() {
-    setLoading(true);
+  
+async function loadStats() {
+  setLoading(true);
 
-    try {
-      const {
-        data: { user },
-        error: userError,
-      } = await supabase.auth.getUser();
+  try {
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
 
-      if (userError) throw userError;
+    if (userError) throw userError;
+    if (!user) throw new Error("You are not logged in.");
 
-      if (!user) {
-        throw new Error("You are not logged in.");
-      }
+    const now = new Date();
 
-      const now = new Date();
+    // Today's date range
+    const startOfDay = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
 
-      const startOfDay = new Date(
+    const endOfDay = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + 1
+    );
+
+    // 1. Today's appointments assigned to this vet
+    const {
+      data: appointments,
+      error: appointmentsError,
+    } = await supabase
+      .from("appointments")
+      .select("id, pet_id")
+      .eq("veterinarian_id", user.id)
+      .gte("appointment_date", startOfDay.toISOString())
+      .lt("appointment_date", endOfDay.toISOString());
+
+    if (appointmentsError) throw appointmentsError;
+
+    // 2. Get all patients assigned to this veterinarian
+const {
+  data: assignedAppointments,
+  error: assignedError,
+} = await supabase
+  .from("appointments")
+  .select("pet_id")
+  .eq("veterinarian_id", user.id);
+
+if (assignedError) throw assignedError;
+
+// 3. Count unique assigned patients
+const patientIds = [
+  ...new Set(
+    (assignedAppointments || [])
+      .map((item) => item.pet_id)
+      .filter(Boolean)
+  ),
+];
+
+// 4. Get medical history for assigned patients
+let medicalRecords = [];
+
+if (patientIds.length > 0) {
+  const {
+    data,
+    error: recordsError,
+  } = await supabase
+    .from("medical_records")
+    .select("id, pet_id")
+    .in("pet_id", patientIds);
+
+  if (recordsError) throw recordsError;
+
+  medicalRecords = data || [];
+}
+
+const records = medicalRecords || [];
+const appointmentList = appointments || [];
+
+// Debug logs
+console.log("ASSIGNED PATIENTS:", patientIds);
+console.log("MEDICAL RECORDS:", medicalRecords);
+console.log("APPOINTMENTS:", appointmentList);
+
+    // 4. Count vaccinations due for these patients
+    let dueVaccinationCount = 0;
+
+    if (patientIds.length > 0) {
+      const todayString = [
         now.getFullYear(),
-        now.getMonth(),
-        now.getDate(),
-        0,
-        0,
-        0,
-        0
-      );
-
-      const endOfDay = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate(),
-        23,
-        59,
-        59,
-        999
-      );
+        String(now.getMonth() + 1).padStart(2, "0"),
+        String(now.getDate()).padStart(2, "0"),
+      ].join("-");
 
       const {
-        data: appointments,
-        error: appointmentsError,
+        data: vaccinations,
+        error: vaccinationsError,
       } = await supabase
-        .from("appointments")
+        .from("vaccinations")
         .select("id")
-        .eq("veterinarian_id", user.id)
-        .gte(
-          "appointment_date",
-          startOfDay.toISOString()
-        )
-        .lte(
-          "appointment_date",
-          endOfDay.toISOString()
-        );
+        .in("pet_id", patientIds)
+        .lte("next_due_date", todayString);
 
-      if (appointmentsError) {
-        throw appointmentsError;
-      }
+      if (vaccinationsError) throw vaccinationsError;
 
-      const {
-        data: medicalRecords,
-        error: medicalRecordsError,
-      } = await supabase
-        .from("medical_records")
-        .select("id, pet_id")
-        .eq("veterinarian_id", user.id);
-
-      if (medicalRecordsError) {
-        throw medicalRecordsError;
-      }
-
-      const records = medicalRecords || [];
-
-      const uniquePatients = new Set(
-        records
-          .map((record) => record.pet_id)
-          .filter(Boolean)
-      );
-
-      const reportsCount = records.length;
-
-      let dueVaccinationCount = 0;
-
-      const patientIds = [...uniquePatients];
-
-      if (patientIds.length > 0) {
-        const todayString =
-          now.getFullYear() +
-          "-" +
-          String(now.getMonth() + 1).padStart(2, "0") +
-          "-" +
-          String(now.getDate()).padStart(2, "0");
-
-        const {
-          data: vaccinations,
-          error: vaccinationsError,
-        } = await supabase
-          .from("vaccinations")
-          .select(
-            "id, pet_id, vaccination_date, next_due_date"
-          )
-          .in("pet_id", patientIds)
-          .lte("next_due_date", todayString);
-
-        if (vaccinationsError) {
-          throw vaccinationsError;
-        }
-
-        dueVaccinationCount =
-          vaccinations?.length || 0;
-      }
-
-      setStats({
-        appointments: appointments?.length || 0,
-        patients: uniquePatients.size,
-        vaccinations: dueVaccinationCount,
-        reports: reportsCount,
-      });
-    } catch (error) {
-      console.error(
-        "Error loading dashboard statistics:",
-        error
-      );
-
-      setStats({
-        appointments: 0,
-        patients: 0,
-        vaccinations: 0,
-        reports: 0,
-      });
-    } finally {
-      setLoading(false);
+      dueVaccinationCount = vaccinations?.length || 0;
     }
+
+    // 5. Update dashboard statistics
+    setStats({
+      appointments: appointmentList.length,
+      patients: patientIds.length,
+      vaccinations: dueVaccinationCount,
+      reports: records.length,
+    });
+
+  } catch (error) {
+    console.error(
+      "Error loading dashboard statistics:",
+      error
+    );
+
+    setStats({
+      appointments: 0,
+      patients: 0,
+      vaccinations: 0,
+      reports: 0,
+    });
+  } finally {
+    setLoading(false);
   }
+}
 
   const statsData = [
     {
