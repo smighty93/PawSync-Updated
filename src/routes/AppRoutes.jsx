@@ -33,6 +33,7 @@ import Profile from "../pages/owner/Profile";
 import OwnerAnalytics from "../pages/owner/Analytics";
 import Reminders from "../pages/owner/Reminders";
 import Timeline from "../pages/owner/Timeline";
+import PetProfile from "../pages/owner/PetProfile";
 
 // =====================================================
 // VETERINARIAN - MOBILE
@@ -302,6 +303,19 @@ function AppRoutes() {
                   <OwnerMobileDashboard />
                 }
               />
+            </RoleRoute>
+          }
+        />
+
+        {/* =================================================
+            PET OWNER - PET PROFILE
+        ================================================= */}
+
+        <Route
+          path="/pets/:id"
+          element={
+            <RoleRoute allowedRoles={["pet_owner"]}>
+              <PetProfile />
             </RoleRoute>
           }
         />
